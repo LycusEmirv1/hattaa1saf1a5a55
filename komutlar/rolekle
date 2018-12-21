@@ -1,0 +1,30 @@
+const Discord = require("discord.js");
+
+module.exports.run = async (bot, message, args) => {
+
+  if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel(" **| Bunu yapmak için yeterli yetkin yok.**");
+  let rMember = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0]);
+  if(!rMember) return message.channel.send("**| Kişiyi bulamıyorum!**");
+  let role = args.join(" ").slice(22);
+  if(!role) return message.channel.send(" **| Rol belirle**");
+  let gRole = message.guild.roles.find(`name`, role);
+  if(!gRole) return message.channel.send("**| Bu rolü bulamıyorum.**");
+
+  if(rMember.roles.has(gRole.id)) return message.reply("**| Zaten bu role sahip.**");
+  await(rMember.addRole(gRole.id));
+  message.channel.send(` | ${rMember} adlı kişiye ${gRole.name} rolü verildi.`).then(msg => msg.delete({timeout: 20000}));
+  
+}
+
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: [],
+  permLevel: 3
+};
+
+exports.help = {
+  name: 'rolver',
+  description: 'Belirlenen kişiye yetkili tarafından rolü verilir',
+  usage: 'rolver <kişi>'
+};

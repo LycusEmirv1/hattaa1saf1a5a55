@@ -1,0 +1,39 @@
+const Discord = require('discord.js');
+const ayarlar = require('../ayarlar.json');
+
+var prefix = ayarlar.prefix;
+
+exports.run = (client, message, params) => {
+  const embedyardim = new Discord.RichEmbed()
+  .setTitle("Komutlar")
+  .setDescription('')
+  .setColor(0x00ffff)
+  .addField("**Eğlence ve Kullanıcı Komutları**", `h!avatarım = Discord Avatarınızı gösterir \nh!banned  = Dene ve gör \nh!slots = Slots oyununu oynatır. \nh!alkış = Bot alkışlar\nh!servericon = Sunucunun iconunu gösterir.\nh!sorusor = Bot bazı soruları cevaplar. \nh!hesapla = Belirtilen işlemi yapar.\nh!havadurumu = Türkiyedeki şehirlerin sıcaklık değerini söyler.\nh!kullanıcıbilgim =  Komutu kullanan kişi hakkında bilgi verir.\nh!steamfiyat = Belirtilen oyunun fiyatını söyler .\nh!wasted = Belirtilen kişinin avatarına wasted efekti ekler. \nh!nitroefekt = Belirtilen kişinin avatarına nitro efekti ekler.\nh!tersrenk = Belirtilen kişinin avatarına ters renk efekti uygular.\nh!trigger = Avatarına triggered efekti (gif) uygular.\nh!atatürkçerçeve = Avatarınıza Atatürk Çerçeve'si ekler.`)
+  .addField("**Sunucu Yetkilisi Komutları**", `h!ban = İstediğiniz Kişiyi Sunucudan Banlar. \nh!kick  = İstediğiniz Kişiyi Sunucudan Atar. \nh!unban = İstediğiniz Kişinin Yasağını Açar.\nh!duyur = Sunucudaki herkese özelden iletdiğiniz mesajı yazar.\nh!emojiyazı = Yazdığınız mesajı emoji haline getirir.\nh!yaz = İstediğiniz mesajı bota yazdırır.\nh!temizle = Belirtilen sayı kadar mesaj siler.\nh!kilit = Kanalı istediğiniz kadar süreyle kitler.\nh!uyar = Belirlediğiniz kişiyi uyarır.Bu kişiyi #uyarı-alanlar kısmında belirir.\nh!mute = Seçilen kişiyi susturur.\nh!unmute = Seçilen kişinin mutesini kaldırır.\nh!rolver = Belirlenen kişiye seçilen rol verilir.\nh!efekt = Belirtilen resim linkine 'eski' efekti uygular.`)
+  .addField("**Botun Ana Komutları**", "h!yardım = BOT Komutlarını Atar.\nh!ping = BOT Gecikme Süresini Söyler.\nh!sunucudavet = Bot sunucunun davet linkini atar.")
+  .addField("**Müzik Komutları**", "h!ekle = Eklenece şarkı (İlk yazmanız gereken komut) (h!ekle Şarkıismi).\nh!geç = Bir sonraki şarkıya geçer.\nh!play = Eklediğiniz şarkıyı başlatır.\nh!durdur = Şarkıyı durdurur.\nh!devamet = Şarkı durmuş ise tekrar başlatmanızı sağlar.")
+  if (!params[0]) {
+    const commandNames = Array.from(client.commands.keys());
+    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
+    message.channel.send(embedyardim);
+  } else {
+    let command = params[0];
+    if (client.commands.has(command)) {
+      command = client.commands.get(command);
+      message.author.send('asciidoc', `= ${command.help.name} = \n${command.help.description}\nDoğru kullanım: ` + prefix + `${command.help.usage}`);
+    }
+  }
+};
+
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: ['h1'],
+  permLevel: 0
+};
+
+exports.help = {
+  name: 'yardım',
+  description: 'Tüm komutları gösterir.',
+  usage: 'yardım1 [komut]'
+};
